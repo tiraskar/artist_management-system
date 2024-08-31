@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { SharedLayout } from "./pages";
+import { Login, SharedLayout } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -7,7 +7,16 @@ const router = createBrowserRouter([
     element: <SharedLayout />,
     children: [
       // Routes 
-    ]
+    ],
+  },
+  // Other routes
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "*",
+    element: <div>Page Not Found</div>,
   }
 ])
 

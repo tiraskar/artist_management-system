@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Onest:wght@100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,5 +63,17 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+#auth {
+  background-image: url('/background-desktop.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: '576px') {
+  #auth {
+    background-image: url('/background-mobile.jpg');
+    background-position: center;
   }
 }
