@@ -1,12 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login, SharedLayout, Register } from "./pages";
+import { Login, SharedLayout, Register, Dashboard } from "./pages";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <SharedLayout />,
     children: [
-      // Routes 
+      {
+        index: '/',
+        element: <Dashboard />
+      } 
     ],
   },
 
