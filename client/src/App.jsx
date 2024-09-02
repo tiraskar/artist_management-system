@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login, SharedLayout } from "./pages";
+import { Login, SharedLayout, Register } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -9,11 +9,17 @@ const router = createBrowserRouter([
       // Routes 
     ],
   },
-  // Other routes
+
   {
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/signup",
+    element: <Register />,
+  },
+
+  // Other routes
   {
     path: "*",
     element: <div>Page Not Found</div>,
