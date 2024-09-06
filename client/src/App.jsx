@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login, SharedLayout, Register, Dashboard } from "./pages";
+import { Login, SharedLayout, Register, Dashboard, Users } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -9,7 +9,11 @@ const router = createBrowserRouter([
       {
         index: '/',
         element: <Dashboard />
-      } 
+      },
+      {
+        path: "/users",
+        element: <Users />
+      }
     ],
   },
 
