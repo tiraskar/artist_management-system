@@ -1,74 +1,59 @@
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 
-export const inputField = {
-  TEXT: 'TEXT',
-  RADIO: 'RADIO',
-}
-
-const CustomFormField = ({
-  props,
+const CustomFormField = forwardRef(({
   name,
   label,
   className,
   type = "text",
-  handleChange,
-  required = true,
-  labelColor = 'black',
   placeholder,
   inputType,
-  value
-}) => {
+  errorMessage,
+  labelColor,
+  ...rest
+}, ref) => {
 
   const renderInput = () => {
-    switch (inputType) {
-      case "RADIO":
-        return (
-          <input type="radio"
-            {...props}
-            name={name}
-            value={value}
-            className='h-4 w-4'
-          />
-        );
-
-      default:
         return (
           <input
             name={name}
-            {...props}
             type={type}
-            onChange={handleChange}
-            className={`default-input ${className}`}
-            required={required}
             placeholder={placeholder}
-            value={value}
+            className={`default-input  ${className} ${errorMessage ? 'outline-red-400' : ""}`}
+            ref={ref}
+            {...rest}
           />
         );
-    }
   };
 
   return (
     <div className="flex flex-col gap-y-2">
+      {
+        inputType !== "RADIO" && 
       <label className={`flex text-lg text-${labelColor}`}>
         {label}
       </label>
+      }
       {renderInput()}
+      {errorMessage && <span className="text-red-500 text-xs">{errorMessage}</span>}
     </div>
   );
-};
+});
+
+// Set a display name for the component
+CustomFormField.displayName = 'CustomFormField';
 
 CustomFormField.propTypes = {
-  props: PropTypes.object,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   className: PropTypes.string,
   type: PropTypes.string,
-  handleChange: PropTypes.func,
-  required: PropTypes.bool,
-  labelColor: PropTypes.string,
   placeholder: PropTypes.string,
   inputType: PropTypes.string,
   value: PropTypes.any,
+  errorMessage: PropTypes.string,
+  labelColor: PropTypes.string,
+  radioOptions: PropTypes.array
 };
 
 export default CustomFormField;
