@@ -6,20 +6,25 @@ import CustomFormField from '../components/CustomFormField';
 import { useNavigate } from 'react-router-dom';
 
 const signUpSchema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  phone: yup.number().required(),
-  address: yup.string().required(),
-  email: yup.string().email().required(),
-  password: yup.string().required(),
-  gender: yup.string().required(),
-  dob: yup.string().required()
-
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  phone: yup.string().required("Phone number is required"),
+  address: yup.string().required("Address is required"),
+  email: yup.string().email("Invalid email format").required("Email is required"),
+  password: yup.string().required("Password is required"),
+  confirmPassword: yup.string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required("Confirm password is required"),
+  gender: yup.string().oneOf(['m', 'f', 'o'], 'Invalid gender selected').required("Gender is required"),
+  dob: yup.string().required("Date of birth is required"),
 }).required();
 
 const SignUpForm = () => {
-  const { register, handleSubmit } = useForm({
-    resolver: yupResolver(signUpSchema)
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(signUpSchema),
+    defaultValues: {
+      gender: "m"
+    }
   });
 
   const handleSubmitForm = () => {
@@ -37,103 +42,104 @@ const SignUpForm = () => {
       <div className="text-4xl tracking-wider font-bold text-gray-800 ">Register account</div>
       <div className='grid sm:grid-cols-2 gap-4'>
         <CustomFormField
+          {...register("firstName")}
           name='firstName'
           label="First Name"
-          labelColor='black'
           type="text"
-          control={register("firstName")}
           placeholder="John"
-          className=""
+          errorMessage={errors?.firstName?.message}
         />
         <CustomFormField
+          {...register("lastName")}
           name='lastName'
           label="Last Name"
-          labelColor='black'
           type="text"
-          control={register("lastName")}
           placeholder="Doe"
-          className=""
+          errorMessage={errors?.lastName?.message}
         />
         <CustomFormField
-          name='email'
+          {...register("email")}
+          name="email"
           label="Email"
-          labelColor='black'
           type="email"
-          control={register("email")}
-          placeholder="example@example.com"
-          className=""
+          errorMessage={errors?.email?.message}
         />
         <CustomFormField
+          {...register('phone')}
           name='phone'
           label="Phone"
-          labelColor='black'
           type="number"
-          control={register('phone')}
           placeholder='98000000000'
+          errorMessage={errors?.phone?.message}
         />
         <CustomFormField
+          {...register("address")}
           name='address'
           label="Address"
-          labelColor='black'
           type="text"
-          control={register("address")}
           placeholder='Butwal'
-
+          errorMessage={errors?.address?.message}
         />
         <CustomFormField
+          {...register("dob")}
           name='dob'
           label="Date of Birth"
           labelColor='black'
           type="date"
+          errorMessage={errors.dob?.message}
         />
         <CustomFormField
+          {...register("password")}
           name='password'
           label="Password"
-          labelColor='black'
           type="password"
-          control={register("password")}
-          className=""
+          placeholder="*******"
+          errorMessage={errors?.password?.message}
         />
         <CustomFormField
           name='confirmPassword'
           label="Confirm Password"
-          labelColor='black'
           type="password"
-          control={register("confirmPassword")}
-          className=""
+          {...register("confirmPassword")}
+          errorMessage={errors?.confirmPassword?.message}
         />
 
+
         <div className="flex flex-col gap-y-2">
-          <label className={`flex text-lg text-black`}>
-            Gender
-          </label>
-          <div className='flex text-black gap-4 '>
+          <label className="flex text-lg text-black">Gender</label>
+          <div className='flex text-black gap-4'>
             <div className='flex items-center gap-2'>
-              <input type="radio"
-                name='male'
-                value='male'
+              <input
+                type="radio"
+                id="male"
+                {...register("gender")}
+                value="m"
                 className='h-4 w-4'
               />
-              <label htmlFor="">Male</label>
+              <label htmlFor="male">Male</label>
             </div>
             <div className='flex items-center gap-2'>
-              <input type="radio"
-                name='female'
-                value='female'
+              <input
+                type="radio"
+                id="female"
+                {...register("gender")}
+                value="f"
                 className='h-4 w-4'
               />
-              <label htmlFor="">Female</label>
+              <label htmlFor="female">Female</label>
             </div>
             <div className='flex items-center gap-2'>
-              <input type="radio"
-                name='other'
-                value='other'
+              <input
+                type="radio"
+                id="other"
+                {...register("gender")}
+                value="o"
                 className='h-4 w-4'
               />
-              <label htmlFor="">Other</label>
+              <label htmlFor="other">Other</label>
             </div>
           </div>
-
+          {errors.gender && <div className="text-red-500">{errors.gender.message}</div>}
         </div>
 
       </div>
