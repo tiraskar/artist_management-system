@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CustomPagination from "./CustomPagination";
+import { Delete, Edit } from 'lucide-react';
 
 const UserList = () => {
   const [userData, setUserData] = useState([]);
@@ -25,9 +26,9 @@ const UserList = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
-      <Table className="h-[400px]">
-        <TableHeader className="">
+    <div className="">
+      <Table>
+        <TableHeader>
           <TableRow>
             <TableHead>Full name</TableHead>
             <TableHead>Email</TableHead>
@@ -35,17 +36,25 @@ const UserList = () => {
             <TableHead>Address</TableHead>
             <TableHead>Date of birth</TableHead>
             <TableHead>Gender</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {userData.slice(0, limit).map((user) => (
             <TableRow key={user.id}>
-              <TableCell className="font-medium">{user.fullname}</TableCell>
+              <TableCell>{user.fullname}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone}</TableCell>
               <TableCell>{user.address}</TableCell>
               <TableCell>{user.dob}</TableCell>
-              <TableCell>{user.gender}</TableCell>
+              <TableCell>
+                {user.gender === "O" ? "Other" : user.gender === "F" ? "Female" : "Male"}
+              </TableCell>
+
+              <TableCell className="flex gap-2">
+                <Edit size={20} color='blue' className='cursor-pointer' />
+                <Delete size={20} color='red' className='cursor-pointer' />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -54,7 +63,7 @@ const UserList = () => {
             <TableCell colSpan={1} className="text-right">
               Showing {((currentPage - 1) * limit) + 1} to {Math.min(currentPage * limit, users.length)} of {users.length} entries
             </TableCell>
-            <TableCell colSpan={5} className="justify-end">
+            <TableCell colSpan={6} className="justify-end">
               <CustomPagination
                 totalPages={Math.ceil(users.length / limit)}
                 currentPage={currentPage}

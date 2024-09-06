@@ -79,6 +79,6 @@
 
 @layer components {
   .default-input {
-    @apply border-slate-200 border-[1px] outline-none px-3 rounded-lg focus:outline-blue-400 bg-white text-[1rem] py-1.5;
+    @apply border-slate-200 border-[1px] outline-none px-3 rounded-sm focus:outline-slate-400 bg-white text-[1rem] py-1.5;
   }
 }
