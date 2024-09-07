@@ -30,7 +30,7 @@ const CustomFormField = forwardRef(({
     <div className="flex flex-col gap-y-2">
       {
         inputType !== "RADIO" && 
-      <label className={`flex text-lg text-${labelColor}`}>
+        <label className={`flex text-sm text-${labelColor}`}>
         {label}
       </label>
       }

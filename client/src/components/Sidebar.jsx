@@ -11,7 +11,7 @@ const Sidebar = () => {
           <Link
             key={href}
             to={href}
-            className={`flex items-center px-4 py-2 font-medium text-sm rounded-md ${pathname === href ? 'bg-slate-200 text-black' : 'hover:bg-slate-200'
+            className={`flex items-center px-4 py-2 font-medium text-sm rounded-md ${pathname === href || pathname.startsWith(`${href}/`) ? 'bg-slate-200 text-black' : 'hover:bg-slate-200'
               }`}
           >
             <Icon className="mr-3 size-4" />
