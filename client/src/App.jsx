@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, SharedLayout, Register, Dashboard } from "./pages";
-import { CreateUserForm, UserList } from "./components";
+import { ArtistList, CreateArtist, CreateUser, UserList } from "./components";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +17,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/create",
-        element: <CreateUserForm />
-      }
+        element: <CreateUser />
+      },
+      {
+        path: "/artist",
+        element: <ArtistList />,
+      },
+      {
+        path: "/artist/create",
+        element: <CreateArtist />,
+      },
     ],
   },
 
