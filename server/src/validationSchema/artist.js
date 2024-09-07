@@ -18,3 +18,11 @@ export const updateArtistSchema = Joi.object({
   first_release_year: Joi.number().optional(),
   no_of_albums_released: Joi.number().optional(),
 });
+
+export const deleteArtistSchema = Joi.object({
+  artist_id: Joi.number().required(),
+});
+
+export const getArtistSchema = Joi.object({
+  artist_name: Joi.number().required(),
+});
