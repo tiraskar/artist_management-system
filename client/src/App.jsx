@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login, SharedLayout, Register, Dashboard, Users } from "./pages";
+import { Login, SharedLayout, Register, Dashboard } from "./pages";
 import { CreateUserForm, UserList } from "./components";
 
 const router = createBrowserRouter([
@@ -13,17 +13,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/users",
-        element: <Users />,
-        children: [
-          {
-            index: true,
-            element: <UserList />
-          },
-          {
-            path: "create",
-            element: <CreateUserForm />
-          }
-        ]
+        element: <UserList />,
+      },
+      {
+        path: "/users/create",
+        element: <CreateUserForm />
       }
     ],
   },
