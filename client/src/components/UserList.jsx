@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/table";
 import CustomPagination from "./CustomPagination";
 import { Delete, Edit } from 'lucide-react';
+import SearchUserForm from './form/SearchUserForm';
+import PageHeading from './PageHeading';
 
 const UserList = () => {
   const [userData, setUserData] = useState([]);
@@ -26,10 +28,17 @@ const UserList = () => {
   }, []);
 
   return (
-    <div className="">
+    <div>
+      <PageHeading
+        pageTitle='User list - 10'
+        nextPageLink='/users/create'
+        searchComponent={<SearchUserForm />}
+        nextPageText='Create new user'
+      />
+
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className='bg-slate-200'>
             <TableHead>Full name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>

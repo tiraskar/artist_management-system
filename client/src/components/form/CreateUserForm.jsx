@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import CustomFormField from './CustomFormField';
 
 import {
   Select,
@@ -10,7 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from './ui/button';
+import { Button } from '../ui/button'; 
+import CustomFormField from '../CustomFormField';
 
 
 const signUpSchema = yup.object({
@@ -28,6 +28,8 @@ const signUpSchema = yup.object({
   role: yup.string().required()
   // ('super_admin', 'artist_manager', "artist")
 }).required();
+
+
 const CreateUserForm = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -43,6 +45,7 @@ const CreateUserForm = () => {
   };
 
   return (
+
     <form onSubmit={handleSubmit(submitForm)}>
       <div className='grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4'>
         <CustomFormField
@@ -108,9 +111,9 @@ const CreateUserForm = () => {
           errorMessage={errors?.confirmPassword?.message}
         />
 
-        <div className='space-y-2'>
-          <label className="text-lg font-normal">Role</label>
-          <Select className="rounded-2xl text-[1rem]">
+        <div className='space-y-1'>
+          <label className="text-sm font-normal">Role</label>
+          <Select className="rounded-2xl text-sm">
             <SelectTrigger>
               <SelectValue placeholder="Select a role" className='text-lg' />
             </SelectTrigger>
@@ -162,9 +165,7 @@ const CreateUserForm = () => {
       <div className='flex space-x-2 pt-10'>
         <Button type="submit" className="bg-blue-500 hover:bg-blue-600">Create User</Button>
         <Button className="bg-red-500 hover:bg-red-600">Cancel</Button>
-
       </div>
-
     </form>
   );
 };
