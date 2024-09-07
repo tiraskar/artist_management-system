@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, SharedLayout, Register, Dashboard } from "./pages";
-import { ArtistList, CreateArtist, CreateUser, UserList } from "./components";
+import { ArtistList, CreateArtist, CreateMusic, CreateUser, MusicList, UserList } from "./components";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +27,14 @@ const router = createBrowserRouter([
         path: "/artist/create",
         element: <CreateArtist />,
       },
+      {
+        path: "/music",
+        element: <MusicList />,
+      },
+      {
+        path: "/music/create",
+        element: <CreateMusic />,
+      }
     ],
   },
 
