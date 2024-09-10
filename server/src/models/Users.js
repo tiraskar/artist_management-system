@@ -1,91 +1,51 @@
-import sequelize from "../config/sequelize.js";
-import sequelize from "../config/sequelize.js";
-import bcrypt from "bcryptjs";
+import con from '../config/database.js';
 
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  first_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  last_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  address: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-    },
-  },
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  dob: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  gender: {
-    type: DataTypes.ENUM('m', 'f', 'o'),
-    allowNull: false,
-  },
-  role: {
-    type: DataTypes.ENUM('super_admin', 'artist_manager', 'artist'),
-    allowNull: false,
-    defaultValue: 'artist',
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
-  deletedAt: {
-    type: DataTypes.DATE,
-  },
-},
-  {
-    tableName: "User",
-    modelName: "User",
-    timestamps: true,
-    paranoid: true,
-    hooks: {
-      beforeCreate: async (user, options) => {
-        if (user.password) {
-          const salt = await bcrypt.genSalt(10);
-          user.password = await bcrypt.hash(user.password, salt);
-        }
-
-        const slugBase = `${user.firstName}-${user.lastName}`;
-        user.slug = slugify(slugBase, { lower: true });
-      },
-    }
-  }
-);
-
-User.prototype.checkPassword = async function (inputPassword) {
-  return await bcrypt.compare(inputPassword, this.password);
+const findUserByEmail = async (email) => {
+  const query = "SELECT * FROM user WHERE email=?";
+  const [result] = await con.query(query, [email]);
+  return result[0];
 };
 
-export default User;
+const createUser = async (userObj) => {
+  const { first_name, last_name, email, password, phone,
+    dob, gender, address, created_at } = userObj;
+
+  const query =
+    `
+    INSERT INTO user
+      (
+        first_name,
+        last_name,
+        email,
+        password,
+        phone,
+        dob,
+        gender,
+        address,
+        role_type,
+        created_at
+      )
+    VALUES
+      (?,?,?,?,?,?,?,?,?,?);
+    `;
+
+  const [user] = await con.query(query, [
+    first_name,
+    last_name,
+    email,
+    password,
+    phone,
+    dob,
+    gender,
+    address,
+    'artist',
+    created_at
+  ]);
+
+  return user.insertId;
+};
+
+export const User = {
+  findUserByEmail,
+  createUser
+};
