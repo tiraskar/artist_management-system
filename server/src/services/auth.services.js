@@ -15,7 +15,7 @@ const signUp = async (obj) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const userId = await User.createUser({
+  const userId = await User.signUp({
     first_name,
     last_name,
     email,
