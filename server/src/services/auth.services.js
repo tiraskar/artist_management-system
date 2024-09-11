@@ -31,7 +31,8 @@ const signUp = async (obj) => {
   return userId;
 };
 
-const signIn = async (email, password) => {
+const signIn = async (data) => {
+  const { email, password } = data;
   const user = await User.findUserByEmail(email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     throw createHttpError(401, "Invalid credentials");
@@ -48,7 +49,7 @@ const signIn = async (email, password) => {
     config.ACCESS_TOKEN_EXPIRY
   );
 
-  return accessToken;
+  return { accessToken, user };
 };
 
 const authServices = {

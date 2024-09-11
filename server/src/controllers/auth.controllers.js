@@ -11,11 +11,12 @@ export const signUp = asyncHandler(async (req, res, next) => {
 });
 
 export const signIn = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body;
-  const accessToken = await authServices.signIn(email, password);
+  const { accessToken, user } = await authServices.signIn(req.body);
+  const { password, ...rest } = user
   return res.status(200).json({
     success: true,
     message: "User signed in successfully",
     accessToken,
+    user: rest
   });
 });
