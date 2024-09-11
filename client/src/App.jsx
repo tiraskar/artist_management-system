@@ -1,6 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, SharedLayout, Register, Dashboard } from "./pages";
 import { ArtistList, CreateArtist, CreateMusic, CreateUser, MusicList, UserList } from "./components";
+import { Provider } from "react-redux";
+import { store, persistor } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -57,7 +62,12 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ToastContainer />
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
   );
 }
 
