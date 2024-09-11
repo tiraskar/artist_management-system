@@ -27,8 +27,8 @@ const auth = (req, res, next) => {
     const token = parts[1];
 
     try {
-        const { userId, email } = jwtServices.verify(token, config.ACCESS_TOKEN_SECRET);
-        req.user = { userId, email };
+        const { userId, email, role } = jwtServices.verify(token, config.ACCESS_TOKEN_SECRET);
+        req.user = { userId, email, role };
         next();
     } catch (error) {
         logger.error(`{Api:${req.url}, Error:${error.message}, Stack:${error.stack} }`);

@@ -41,6 +41,7 @@ const signIn = async (data) => {
   const payload = {
     userId: user.id,
     email: user.email,
+    role: user.role_type
   };
 
   const accessToken = jwtServices.generateToken(
