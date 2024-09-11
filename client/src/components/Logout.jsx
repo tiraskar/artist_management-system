@@ -5,7 +5,11 @@ import { logout } from '@/redux/slices/authSlice';
 const Logout = () => {
 
   const dispatch = useDispatch();
-  dispatch(logout());
+  useEffect(() => {
+    console.log('logut');
+
+    dispatch(logout());
+  }, [])
   return (
     <div />
   );

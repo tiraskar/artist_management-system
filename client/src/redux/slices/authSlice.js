@@ -16,8 +16,6 @@ export const loginUser = createAsyncThunk(
         },
       }
       );
-      console.log('response data', response.data);
-
       return response.data;
 
     } catch (error) {
@@ -25,6 +23,26 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+export const registerUser = createAsyncThunk(
+  'user/register',
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/signup`,
+        user, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      );
+      return response.data;
+
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 
 const authSlice = createSlice({
 
@@ -44,7 +62,7 @@ const authSlice = createSlice({
       state.userInfo = null;
       state.accessToken = null;
       setTimeout(() => {
-        window.location.href('/login');
+        window.location.replace('/login');
       }, 200);
     }
   },
@@ -63,7 +81,7 @@ const authSlice = createSlice({
         state.userInfo = action.payload.user;
         state.accessToken = action.payload.accessToken;
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.replace('/');
         }, 200);
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -71,6 +89,24 @@ const authSlice = createSlice({
         state.error = action.payload;
         if (action?.payload?.message) toast.error(action?.payload?.message);
       });
+    //register user 
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state) => {
+        state.loading = false;
+        toast.success("User registered successfully...");
+        setTimeout(() => {
+          window.location.replace('/login');
+        }, 400);
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        if (action?.payload?.message) toast.error(action?.payload?.message);
+      })
   }
 });
 
