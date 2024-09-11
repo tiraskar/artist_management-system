@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -13,24 +13,42 @@ import { Delete, Edit } from "lucide-react";
 import PageHeading from "../PageHeading";
 import SearchArtistForm from "../form/SearchArtistForm";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchArtistList } from "@/redux/slices/artistSlice";
+import { deleteArtist, fetchArtistList } from "@/redux/slices/artistSlice";
+import AlertBox from "../AlertBox";
 
 const UserList = () => {
+
   const dispatch = useDispatch();
   const { currentPage, limit, artistList } = useSelector(state => state.artist)
-
+  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [idToBeDeleted, setIdToBeDeleted] = useState()
   useEffect(() => {
     dispatch(fetchArtistList())
   }, []);
 
   return (
     <div>
+      {
+        showAlertBox && <AlertBox
+          onSubmit={() => {
+            dispatch(deleteArtist(idToBeDeleted));
+            setShowAlertBox(false);
+            setIdToBeDeleted();
+          }}
+          onCancel={() => {
+            setShowAlertBox(false);
+          }}
+          warningMessage='Are you sure want to delete?'
+          message={`Please check twice before deleting the data. Once deleted data won't be recover.`}
+        />
+      }
       <PageHeading
         pageTitle="Artist list - 10"
         nextPageLink="/artist/create"
         searchComponent={<SearchArtistForm />}
         nextPageText="Create new artist"
       />
+
 
       <Table>
         <TableHeader>
@@ -62,7 +80,11 @@ const UserList = () => {
 
               <TableCell className="flex gap-2">
                 <Edit size={20} color="blue" className="cursor-pointer" />
-                <Delete size={20} color="red" className="cursor-pointer" />
+                <Delete size={20} color="red" className="cursor-pointer"
+                  onClick={() => {
+                    setShowAlertBox(true);
+                    setIdToBeDeleted(artist.id);
+                  }} />
               </TableCell>
             </TableRow>
           ))}

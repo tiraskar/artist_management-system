@@ -36,6 +36,21 @@ export const fetchArtistList = createAsyncThunk(
   }
 )
 
+export const deleteArtist = createAsyncThunk(
+  'artist/delete',
+  async (artistId, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await instance.delete(`/artist/${artistId}`);
+      dispatch(fetchArtistList());
+      return response.data;
+    } catch (error) {
+      toast.dismiss();
+      if (error.response.status == 403) return toast.error(error.response.data.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const artistSlice = createSlice({
   name: 'artist',
 
@@ -93,6 +108,20 @@ const artistSlice = createSlice({
       })
       .addCase(fetchArtistList.rejected, (state, action) => {
         state.isFetchingArtist = false;
+        state.error = action.payload.message;
+      });
+    //delete artist
+    builder
+      .addCase(deleteArtist.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteArtist.fulfilled, (state) => {
+        state.loading = false;
+        toast.success("Artist deleted successfully");
+      })
+      .addCase(deleteArtist.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload.message;
       });
   }
