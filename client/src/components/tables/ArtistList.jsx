@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -12,19 +12,15 @@ import CustomPagination from "../CustomPagination";
 import { Delete, Edit } from "lucide-react";
 import PageHeading from "../PageHeading";
 import SearchArtistForm from "../form/SearchArtistForm";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchArtistList } from "@/redux/slices/artistSlice";
 
 const UserList = () => {
-  const [artistData, setArtistData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(0);
-
-  const fetchArtistList = async () => {
-    setArtistData(artist);
-    setLimit(10);
-  };
+  const dispatch = useDispatch();
+  const { currentPage, limit, artistList } = useSelector(state => state.artist)
 
   useEffect(() => {
-    fetchArtistList();
+    dispatch(fetchArtistList())
   }, []);
 
   return (
@@ -49,7 +45,7 @@ const UserList = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {artistData.slice(0, limit).map((artist) => (
+          {artistList?.slice(0, limit)?.map((artist) => (
             <TableRow key={artist.id}>
               <TableCell>{artist.name}</TableCell>
               <TableCell>{artist.address}</TableCell>
@@ -82,7 +78,7 @@ const UserList = () => {
               <CustomPagination
                 totalPages={Math.ceil(artist.length / limit)}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+                // setCurrentPage={setCurrentPage}
               />
             </TableCell>
           </TableRow>
