@@ -32,7 +32,7 @@ const signUpSchema = yup.object({
 
 const CreateUserForm = () => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
       gender: "m"
@@ -164,7 +164,9 @@ const CreateUserForm = () => {
 
       <div className='flex space-x-2 pt-10'>
         <Button type="submit" className="bg-blue-500 hover:bg-blue-600">Create User</Button>
-        <Button className="bg-red-500 hover:bg-red-600">Cancel</Button>
+        <Button type="button" className="bg-red-500 hover:bg-red-600"
+          onClick={() => reset()}
+        >Cancel</Button>
       </div>
     </form>
   );
