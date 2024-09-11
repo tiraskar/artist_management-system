@@ -1,8 +1,7 @@
-// import instance from "@/utils/axiosInstance";
+import session from "@/utils/session";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import axios from "axios";
 
 
 export const loginUser = createAsyncThunk(
@@ -80,6 +79,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.userInfo = action.payload.user;
         state.accessToken = action.payload.accessToken;
+        session.setValue('token', action.payload.accessToken);
         setTimeout(() => {
           window.location.replace('/');
         }, 200);
