@@ -6,11 +6,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout } from "@/redux/slices/authSlice";
 import { UserCircle } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div className="fixed top-0 left-0 w-full h-12 flex justify-between items-center bg-white border-b-[1px] border-black border-opacity-10 z-40 px-4">
 
@@ -26,7 +29,10 @@ const Navbar = () => {
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem>Change password</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => navigate('/login')} className="cursor-pointer">Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => {
+            toast.success("Logout successfully...");
+            dispatch(logout());
+          }} className="cursor-pointer">Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

@@ -2,7 +2,7 @@ import CreateArtistForm from "./form/CreateArtistForm";
 import PageHeading from "./PageHeading";
 
 
-const CreateUser = () => {
+const CreateArtist = () => {
 
   return (
     <div>
@@ -16,4 +16,4 @@ const CreateUser = () => {
   );
 };
 
-export default CreateUser;
+export default CreateArtist;

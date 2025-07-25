@@ -1,7 +1,15 @@
 import { Navbar, Sidebar } from "@/components";
+import Logout from "@/components/Logout";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 const SharedLayout = () => {
+
+  const { accessToken, isLoggedIn } = useSelector(state => state.auth);
+  if (!accessToken || !isLoggedIn) {
+    return <Logout />;
+  }
+
   return (
     <div className="relative ">
       <Navbar />

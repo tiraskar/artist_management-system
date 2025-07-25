@@ -21,6 +21,7 @@ const CustomFormField = forwardRef(({
             placeholder={placeholder}
             className={`default-input  ${className} ${errorMessage ? 'outline-red-400' : ""}`}
             ref={ref}
+            autoComplete={"off"}
             {...rest}
           />
         );
@@ -53,7 +54,7 @@ CustomFormField.propTypes = {
   value: PropTypes.any,
   errorMessage: PropTypes.string,
   labelColor: PropTypes.string,
-  radioOptions: PropTypes.array
+  radioOptions: PropTypes.array,
 };
 
 export default CustomFormField;

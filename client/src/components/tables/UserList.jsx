@@ -12,19 +12,20 @@ import CustomPagination from "../CustomPagination";
 import { Delete, Edit } from "lucide-react";
 import SearchUserForm from "../form/SearchUserForm";
 import PageHeading from "../PageHeading";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserList } from "@/redux/slices/userSlice";
 
 const UserList = () => {
-  const [userData, setUserData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(0);
 
-  const fetchUserList = async () => {
-    setUserData(users);
-    setLimit(10);
-  };
+  const dispatch = useDispatch();
+  const { usersList, limit } = useSelector(state => state.user)
+  const [currentPage, setCurrentPage] = useState(1);
+
+
 
   useEffect(() => {
-    fetchUserList();
+    // dispatch({ type: "user/userList" });
+    dispatch(getUserList())
   }, []);
 
   return (
@@ -49,9 +50,9 @@ const UserList = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {userData.slice(0, limit).map((user) => (
+          {usersList?.map((user) => (
             <TableRow key={user.id}>
-              <TableCell>{user.fullname}</TableCell>
+              <TableCell>{user.first_name + (' ') + user.last_name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone}</TableCell>
               <TableCell>{user.address}</TableCell>
